@@ -1,5 +1,26 @@
-ekki-api/node_modules
-ekki-api/package-lock.json
+/ekki-api/node_modules
+/ekki-api/package-lock.json
 
-ekki-app/node_modules
-ekki-app/package-lock.json
+/ekki-app/node_modules
+/ekki-app/package-lock.json
+
+/ekki-app/node_modules
+/ekki-app/.pnp
+/ekki-app/.pnp.js
+
+# testing
+/ekki-app/coverage
+
+# production
+/ekki-app/build
+
+# misc
+/ekki-app/.DS_Store
+/ekki-app/.env.local
+/ekki-app/.env.development.local
+/ekki-app/.env.test.local
+/ekki-app/.env.production.local
+
+/ekki-app/npm-debug.log*
+/ekki-app/yarn-debug.log*
+/ekki-app/yarn-error.log*

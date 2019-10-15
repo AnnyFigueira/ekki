@@ -23,4 +23,4 @@ server = async (port) => {
 
 };
 
-server(3000);
+server(3001);
