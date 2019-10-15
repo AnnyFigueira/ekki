@@ -1,26 +1,39 @@
 import React from 'react';
-import logo from './logo.svg';
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+} from "react-router-dom";
+
+import Transactions from './Transactions';
+import Home from './Home';
+
 import './App.css';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
-}
+export default class App extends React.Component {
 
-export default App;
+  state = {}
+
+  async componentDidMount() {
+    const response = await fetch('http://localhost:3001/users/me');
+    const me = await response.json();
+    this.setState({me});
+  }
+
+  render() {
+    return (
+      <div>
+        {!this.state.me && <i className="fas fa-spinner fa-pulse position-absolute text-primary" style={{top: '50%', left: '50%', fontSize: 30, marginTop: -15, marginLeft: -15}}></i>}
+        {this.state.me && <h1 className="text-primary h1 text-center">{this.state.me.name}</h1>}
+        <Router>
+          <Switch>
+            <Route path="/">
+              {this.state.me && <Home me={this.state.me}/>}
+            </Route>
+          </Switch>
+        </Router>
+      </div>
+    );
+  }
+
+}
