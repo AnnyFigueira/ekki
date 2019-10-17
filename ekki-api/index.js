@@ -5,7 +5,9 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 
 const seeds = require('./seeds');
+const users = require('./users');
 const contacts = require('./contacts');
+const transactions = require('./transactions');
 
 server = async (port) => {
 
@@ -17,7 +19,9 @@ server = async (port) => {
   app.use(bodyParser.json());
 
   seeds(app);
+  users(app);
   contacts(app);
+  transactions(app);
 
   app.listen(port, () => console.log(`Example app listening on port ${port}!`))
 

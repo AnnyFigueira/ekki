@@ -21,7 +21,7 @@ module.exports = function(app) {
 
   app.delete('/contacts/:id', async (request, response) => {
     const me = await app.database.collection('users').findOne({_id: 1});
-    const {ops} = await app.database.collection('users').deleteOne({_id: request.params.id, ownerId: me._id});
+    const {ops} = await app.database.collection('contacts').deleteOne({_id: request.params.id, ownerId: me._id});
     response.json(ops);
   });
 

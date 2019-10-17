@@ -11,8 +11,7 @@ const seed = function(id, name) {
     number: Math.floor(Math.random() * 100000),
     initialBalance: 1000,
     balance: 1000,
-    totalLimit: 500,
-    availableLimit: 500,
+    limit: 500
   }
   return [user, account];
 };
