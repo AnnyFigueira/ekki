@@ -7,7 +7,7 @@ import {
 
 import Home from './Home';
 
-import './App.css';
+// import './App.css';
 
 export default class App extends React.Component {
 

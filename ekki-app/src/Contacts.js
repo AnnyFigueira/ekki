@@ -20,9 +20,12 @@ export default class Contacts extends React.Component {
 
   render() {
     return (
-        <div className="card">
+        <div className="card w-100">
           <div className="card-body">
-            <h2 className="card-title d-block w-100 mb-1 h5">Contatos</h2>
+            <h3 className="card-title d-block mb-1 text-primary">
+              Contatos
+              <i className="fas fa-star ml-2 text-secondary" />
+            </h3>
             <ul className="card-text d-block w-100">
               {this.state.contacts && this.state.contacts.map(contact => this.renderContact(contact)) }
             </ul>
