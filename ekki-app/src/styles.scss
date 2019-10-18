@@ -5,10 +5,6 @@ $danger: #b35252;
 
 @import '~bootstrap/scss/bootstrap.scss';
 
-body {
-  background-color: white;
-}
-
 h1, .h1 {
   font-size: 4rem;
 }
@@ -25,14 +21,29 @@ h4, .h4 {
   font-size: 1.5rem;
 }
 
-.container {
-  background-color: white;
+.card {
+  height: 20rem;
 }
 
-@media  (min-width: 1200px) {
+@include media-breakpoint-up(xl) {
+  .container {
+    max-width: 960px;
+}
+
+/* @media  (min-width: 1200px) {
   .container {
     max-width: 960px;
   }
+ */
+  /* .card {
+    height: 200px;
+  } */
+}
+
+@media (min-width: 576px) {
+  /* .card {
+    height: 200px;
+  } */
 }
 
 .money-icon {
