@@ -17,9 +17,8 @@ const seed = function(id, name) {
 };
 
 module.exports = function(app) {
-
   app.get('/seed', (request, response) => {
-    const names = ["Anny", "Fulano", "Ciclano"];
+    const names = ["Anny", "Usuário1", "Usuário2", "Usuário3", "Usuário4", "Usuário5"];
     names.forEach((name, id) => {
       const [user, account] = seed(id+1, name);
       app.database.collection('users').insertOne(user);
@@ -27,5 +26,4 @@ module.exports = function(app) {
     });
     response.json({status: 'success'});
   });
-
 }

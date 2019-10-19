@@ -38,7 +38,8 @@ export default class Contacts extends React.Component {
     this.setState({id: user._id, name: user.name, account: user.account, cpf: user.cpf, disabled: false});
   }
 
-  async handleSubmit() {
+  async handleSubmit(e) {
+    e.preventDefault()
     console.log(this.state.id);
     const response = await fetch('http://localhost:3001/contacts', {
         method: 'post',
@@ -48,8 +49,7 @@ export default class Contacts extends React.Component {
         })
       });
     const contact = await response.json();
-    console.log(contact);
-    //e.preventDefault();
+    
   }
   
   render() {
@@ -84,11 +84,11 @@ export default class Contacts extends React.Component {
                   Contatos
                   <i className="fas fa-user-friends ml-2 text-secondary" />
                 </h3>
-                <div className="card-text py-5 overflow-auto" ref={this.contacts}>
+                <div className="card-text py-2 overflow-auto" ref={this.contacts}>
                   <ContactList all/>
-                  <div className="text-center">
-                    <button type="button" onClick={() => this.cpfInput.current.focus()} className="btn btn-outline-primary">Adicionar Contato</button>
-                  </div>
+                </div>
+                <div className="text-center">
+                  <button type="button" onClick={() => this.cpfInput.current.focus()} className="btn btn-outline-primary">Adicionar Contato</button>
                 </div>
               </div>
             </div>
@@ -101,7 +101,7 @@ export default class Contacts extends React.Component {
                   <i className="fas fa-user-plus ml-2 text-secondary" />
                 </h3>
                 <div className="card-text py-4">
-                  <form>
+                  <form onSubmit={(e) => this.handleSubmit(e)}>
                     <div className="form-group">
                       <div className="input-group">
                         <label htmlFor="cpfInput" className="my-auto mb-0 mr-1">CPF: </label>
@@ -124,7 +124,7 @@ export default class Contacts extends React.Component {
                         <input type="text" className="form-control" id="account" disabled value={this.state.account}/>
                       </div>
                     </div>
-                    <button type="button" className="btn btn-primary" disabled={this.state.disabled} onClick={() => this.handleSubmit()}>Adicionar</button>
+                    <input type="submit" className="btn btn-primary" disabled={this.state.disabled} value="Adicionar" />
                   </form>
                 </div>
               </div>

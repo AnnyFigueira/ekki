@@ -22,28 +22,27 @@ h4, .h4 {
 }
 
 .card {
-  height: 20rem;
+  height: 24rem;
 }
 
 @include media-breakpoint-up(xl) {
   .container {
     max-width: 960px;
-}
-
-/* @media  (min-width: 1200px) {
-  .container {
-    max-width: 960px;
   }
- */
-  /* .card {
-    height: 200px;
-  } */
 }
 
-@media (min-width: 576px) {
-  /* .card {
-    height: 200px;
-  } */
+.position-absolute {
+  &.bottom-button { bottom: 1rem; }
+
+  &.bottom-link {
+    bottom: 1.5rem;
+    right: 1.5rem;
+  }
+
+  &.action-buttons {
+    right: 0.5rem;
+    top: -0.5rem;
+  }
 }
 
 .money-icon {

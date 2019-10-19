@@ -45,18 +45,16 @@ export default class Home extends React.Component {
         <div className="row align-items-center px-5">
           <div className="mx-auto col-md-6 mb-3">
             <div className="card">
-              <div className="card-body">
+              <div className="card-body position-relative">
                 <h3 className="card-title d-block mb-1 text-primary">
                   Favoritos
                   <i className="fas fa-star ml-2 text-secondary" />
                 </h3>
-                <div className="card-text py-4">
+                <div className="card-text py-2">
                   <ContactList />
                 </div>
-                  <div className="d-flex justify-content-between align-items-center h-25">
-                    <Link to="/contacts?add=true" className="btn btn-primary" title="Adicionar Contato"><i className="fas fa-user-plus"/></Link>
-                    <Link to="/contacts" className="text-right">Gerenciar contatos</Link>
-                  </div>
+                <Link to="/contacts?add=true" className="bottom-button btn btn-primary position-absolute" title="Adicionar Contato"><i className="fas fa-user-plus"/></Link>
+                <Link to="/contacts" className="bottom-link position-absolute">Gerenciar contatos</Link>
               </div>
             </div>
           </div>
@@ -67,13 +65,11 @@ export default class Home extends React.Component {
                   Transferências
                   <i className="fas fa-exchange-alt text-secondary ml-2" />
                 </h3>
-                <div className="card-text py-4">
+                <div className="card-text py-2">
                   <Transactions />
                 </div>
-                  <div className="d-flex justify-content-between align-items-center h-25">
-                    <button type="button" className="btn btn-primary" title="Nova Transferência"><i className="fas fa-hand-holding-usd"/></button>
-                    <Link to="/history" className="text-right">Ver histórico completo</Link>
-                  </div>
+                <button type="button" className="bottom-button btn btn-primary position-absolute" title="Nova Transferência"><i className="fas fa-hand-holding-usd"/></button>
+                <Link to="/history" className="bottom-link text-right position-absolute">Ver histórico completo</Link>
               </div>
             </div>
           </div>
