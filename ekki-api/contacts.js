@@ -8,8 +8,9 @@ module.exports = function(app) {
 
   app.post('/contacts', async (request, response) => {
     const me = await app.database.collection('users').findOne({_id: 1});
-    const user = await app.database.collection('users').findOne({_id: request.body._id});
+    const user = await app.database.collection('users').findOne({_id: request.body.id});
     if(user) {
+      // to-do: verificar se o usuário já não está nos contatos e se não está tentando adicionar a si mesmo
       const {ops} = await app.database.collection('contacts').insertOne({ownerId: me._id, userId: user._id});
       const contact = await app.database.collection('contacts').findOne({_id: ops[0]._id});
       contact.user = user;

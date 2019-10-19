@@ -2,7 +2,7 @@ const seed = function(id, name) {
   const user = {
     _id: id,
     name: name,
-    cpf: Math.floor(Math.random() * 10000000000),
+    cpf: '' + Math.floor(Math.random() * 10000000000),
     phone: '51' + Math.floor(Math.random() * 100000000)
   }
   const account = {

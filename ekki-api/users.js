@@ -1,13 +1,12 @@
 module.exports = function(app) {
 
-  app.get('/users/:id', async (request, response) => {
-    const id = request.params.id == 'me' ? 1 : request.params.id
-    const user = await app.database.collection('users').findOne({_id: id});
-    if(request.params.id == 'me') {
-      const account = await app.database.collection('accounts').findOne({userId: user._id});
-      user.account = account;
-    }
+  app.get('/users/:cpf', async (request, response) => {
+    const cpf = request.params.cpf;
+    const user = cpf == 'me' ? await app.database.collection('users').findOne({_id: 1}) : await app.database.collection('users').findOne({cpf: cpf})
+    const account = await app.database.collection('accounts').findOne({userId: user._id});
+
+    cpf == 'me' ? user.account = account : user.account = account.number;
+
     response.json(user);
   });
-
 }

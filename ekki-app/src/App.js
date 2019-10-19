@@ -30,7 +30,10 @@ export default class App extends React.Component {
             <Route path="/history">
               {this.state.me && <Home me={this.state.me}/>}
             </Route>
-          <Route exact path="/contacts" render={this.state.me ? (props) => <Contacts {...props} me={this.state.me} /> : null} />
+          <Route 
+            path="/contacts"
+            render={(props) => <Contacts {...props} />}
+          />
           <Route path="/transfer">
             {this.state.me && <Home me={this.state.me}/>}
           </Route>
