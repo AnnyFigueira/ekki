@@ -3,11 +3,69 @@ import {
   Link
 } from "react-router-dom";
 
-import ContactList from './components/ContactList';
 import Transactions from './components/Transactions';
 
 export default class Home extends React.Component {
-  
+  state = {}
+
+  async componentDidMount() {
+    const response = await fetch('http://localhost:3001/contacts');
+    const contacts = await response.json();
+    this.setState({contacts});
+  }
+
+  resetMessages() {
+    this.setState({errorDeletingContact: false});
+    this.setState({contactDeletedSuccesfully: false});
+  }
+
+  renderContactList() {
+    return (
+      <>
+        {this.state.contacts && this.state.contacts.length === 0 && 
+          <p className="font-weight-normal text-center"> 
+            <span>Nenhum contato recente :(</span>
+          </p>}
+        {this.state.contacts && this.state.contacts.length > 0 && 
+          <ul className="list-group overflow-auto">
+            {this.state.contacts.map(contact => this.renderContact(contact)) }
+          </ul> }
+        {this.state.anErrorOcurred && <div className="alert alert-danger text-danger mt-2"><i className="fas fa-exclamation-circle mr-2" />Ocorreu um erro, tente novamente mais tarde</div>}
+        {this.state.contactDeletedSuccesfully && <div className="alert alert-success text-success mt-2"><i className="fas fa-check-circle mr-2" />Contato removido com sucesso</div>}
+      </>
+    )
+  }
+
+  renderContact(contact) {
+    return (
+      <li key={contact._id} className="list-group-item list-group-item-action">
+        <div className="position-relative">
+        {contact.user.name}
+          <div className="action-buttons position-absolute">
+            <button type="button" className="btn btn btn-link mr-1" title="Transferir..."><i className="fas fa-exchange-alt"/></button>
+            <button type="button" className="btn btn btn-link" title="Remover Contato" onClick={() => this.removeContact(contact._id)}><i className="fas fa-times"/></button>
+          </div>
+        </div>
+      </li>
+    )
+  }
+
+  async removeContact(id) {
+    this.resetMessages();
+    const response = await fetch(`http://localhost:3001/contacts/${id}`, {
+        method: 'delete',
+        headers: {'Content-Type':'application/json'},
+        body: JSON.stringify({
+          "id": id
+        })
+    });
+    if(response.status === 500) { this.setState({errorDeletingContact: true}); }
+    else { 
+      const contacts = this.state.contacts.filter(contact => contact._id !== id);
+      this.setState({contactDeletedSuccesfully: true, contacts}); }
+  }
+
+
   render() {
     const {account} = this.props.me;
     return (
@@ -51,7 +109,7 @@ export default class Home extends React.Component {
                   <i className="fas fa-star ml-2 text-secondary" />
                 </h3>
                 <div className="card-text py-2">
-                  <ContactList />
+                  {this.renderContactList()}
                 </div>
                 <Link to="/contacts?add=true" className="bottom-button btn btn-primary position-absolute" title="Adicionar Contato"><i className="fas fa-user-plus"/></Link>
                 <Link to="/contacts" className="bottom-link position-absolute">Gerenciar contatos</Link>

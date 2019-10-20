@@ -32,7 +32,7 @@ export default class App extends React.Component {
             </Route>
           <Route 
             path="/contacts"
-            render={(props) => <Contacts {...props} />}
+            render={(props) => <Contacts {...props} me={this.state.me}/>}
           />
           <Route path="/transfer">
             {this.state.me && <Home me={this.state.me}/>}
