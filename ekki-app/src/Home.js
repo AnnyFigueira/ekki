@@ -3,15 +3,22 @@ import {
   Link
 } from "react-router-dom";
 
+import ContactList from './components/ContactList';
 import TransactionHistory from './components/TransactionHistory';
+import formatCurrency from './formatCurrency';
 
 export default class Home extends React.Component {
+  
   state = {}
 
   async componentDidMount() {
-    const response = await fetch('http://localhost:3001/contacts');
+    let response = await fetch('http://localhost:3001/contacts/fav');
     const contacts = await response.json();
     this.setState({contacts});
+
+    response = await fetch('http://localhost:3001/transactions/fav');
+    const transactions = await response.json();
+    this.setState({transactions});
   }
 
   resetMessages() {
@@ -19,52 +26,11 @@ export default class Home extends React.Component {
     this.setState({contactDeletedSuccesfully: false});
   }
 
-  renderContactList() {
-    return (
-      <>
-        {this.state.contacts && this.state.contacts.length === 0 && 
-          <p className="font-weight-normal text-center"> 
-            <span>Nenhum contato recente :(</span>
-          </p>}
-        {this.state.contacts && this.state.contacts.length > 0 && 
-          <ul className="list-group overflow-auto">
-            {this.state.contacts.map(contact => this.renderContact(contact)) }
-          </ul> }
-        {this.state.anErrorOcurred && <div className="alert alert-danger text-danger mt-2"><i className="fas fa-exclamation-circle mr-2" />Ocorreu um erro, tente novamente mais tarde</div>}
-        {this.state.contactDeletedSuccesfully && <div className="alert alert-success text-success mt-2"><i className="fas fa-check-circle mr-2" />Contato removido com sucesso</div>}
-      </>
-    )
-  }
-
-  renderContact(contact) {
-    return (
-      <li key={contact._id} className="list-group-item list-group-item-action">
-        <div className="position-relative">
-        {contact.user.name}
-          <div className="action-buttons position-absolute">
-            <button type="button" className="btn btn btn-link mr-1" title="Transferir..."><i className="fas fa-exchange-alt"/></button>
-            <button type="button" className="btn btn btn-link" title="Remover Contato" onClick={() => this.removeContact(contact._id)}><i className="fas fa-times"/></button>
-          </div>
-        </div>
-      </li>
-    )
-  }
-
-  async removeContact(id) {
+  removeContact(id) {
     this.resetMessages();
-    const response = await fetch(`http://localhost:3001/contacts/${id}`, {
-        method: 'delete',
-        headers: {'Content-Type':'application/json'},
-        body: JSON.stringify({
-          "id": id
-        })
-    });
-    if(response.status === 500) { this.setState({errorDeletingContact: true}); }
-    else { 
-      const contacts = this.state.contacts.filter(contact => contact._id !== id);
-      this.setState({contactDeletedSuccesfully: true, contacts}); }
+    const contacts = this.state.contacts.filter(contact => contact._id !== id);
+    this.setState({contacts}); 
   }
-
 
   render() {
     const {account} = this.props.me;
@@ -84,13 +50,13 @@ export default class Home extends React.Component {
               <p className="mb-2 h4">
                 <span className="font-weight-normal">Saldo disponível: </span>
                 <span className={`h3 d-inline-block font-weight-bold ${account.balance <= 0 ? "text-danger" : "text-success"}`}>
-                  R$ {account.balance}
+                  R$ {formatCurrency(account.balance)}
                 </span>
               </p>
               <p className="mb-2 h5 font-weight-normal">
                 <span>Limite restante: </span>
-                {account.balance < 0 && <span className="text-danger"> R$ {account.limit + account.balance} </span>}
-                {account.balance >= 0 && <span className="text-success"> R$ {account.limit} </span>}
+                {account.balance < 0 && <span className="text-danger"> R$ {formatCurrency(account.limit + account.balance)} </span>}
+                {account.balance >= 0 && <span className="text-success"> R$ {formatCurrency(account.limit)} </span>}
               </p>
             </div>
             <div className="pt-md-5">
@@ -109,7 +75,7 @@ export default class Home extends React.Component {
                   <i className="fas fa-star ml-2 text-secondary" />
                 </h3>
                 <div className="card-text py-2">
-                  {this.renderContactList()}
+                  <ContactList contacts={this.state.contacts} me={this.props.me} removeContact={id => this.removeContact(id)}/>
                 </div>
                 <Link to="/contacts?add=true" className="bottom-button btn btn-primary position-absolute" title="Adicionar Contato"><i className="fas fa-user-plus"/></Link>
                 <Link to="/contacts" className="bottom-link position-absolute">Gerenciar contatos</Link>
@@ -126,14 +92,13 @@ export default class Home extends React.Component {
                 <div className="card-text py-2">
                   <TransactionHistory transactions={this.state.transactions} me={this.props.me}/>
                 </div>
-                <Link to="/transactions?new=true" className="bottom-button btn btn-primary position-absolute" title="Nova Transferência"><i className="fas fa-hand-holding-usd"/></Link>
+                <Link to="/transactions?new=true" className="bottom-button btn btn-primary position-absolute" title="Nova Transferência"><i className="fas fa-exchange-alt"/></Link>
                 <Link to="/transactions" className="bottom-link text-right position-absolute">Ver histórico completo</Link>
               </div>
             </div>
           </div>
         </div>
       </div>
-       
     )
   }
 

@@ -21,28 +21,38 @@ export default class App extends React.Component {
     this.setState({me});
   }
 
+  changeBalance(value) {
+    let me = {...this.state.me};
+    me.account = {...this.state.me.account};
+    me.account.balance = this.state.me.account.balance - value;
+    this.setState({me});
+  }
+
   render() {
     return (
       <div className="container">
         {!this.state.me && <i className="fas fa-spinner fa-pulse position-absolute text-primary" style={{top: '50%', left: '50%', fontSize: 30, marginTop: -15, marginLeft: -15}}></i>}
-        {this.state.me && <h1 className="text-primary text-center mb-0 py-3">Olá, {this.state.me.name}!</h1>}
-        <Router>
-          <Switch>
-            <Route path="/history">
-              {this.state.me && <Home me={this.state.me}/>}
-            </Route>
-          <Route 
-            path="/contacts"
-            render={(props) => <Contacts {...props} me={this.state.me}/>}
-          />
-          <Route path="/transactions">
-            {this.state.me && <Transactions me={this.state.me}/>}
-          </Route>
-          <Route path="/">
-            {this.state.me && <Home me={this.state.me}/>}
-          </Route>
-          </Switch>
-        </Router>
+        {this.state.me && 
+          <>
+            <h1 className="text-primary text-center mb-0 py-3">Olá, {this.state.me.name}!</h1>
+            <Router>
+              <Switch>
+                <Route 
+                  path="/contacts"
+                  render={(props) => <Contacts {...props} me={this.state.me}/>}
+                />
+                <Route 
+                  path="/transactions"
+                  render={(props) => <Transactions {...props} me={this.state.me} changeBalance={value => this.changeBalance(value)}/>}  
+                />
+                <Route path="/"
+                  render={(props) => <Home {...props} me={this.state.me}/>}
+                />
+              </Switch>
+            </Router>
+          </>
+        }
+        
       </div>
     );
   }

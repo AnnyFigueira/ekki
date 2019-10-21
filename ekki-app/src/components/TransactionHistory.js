@@ -1,4 +1,7 @@
 import React from 'react';
+import moment from 'moment';
+import 'moment/locale/pt-br';
+import formatCurrency from '../formatCurrency';
 
 export default class TransactionHistory extends React.Component {
   state = {}
@@ -27,22 +30,25 @@ export default class TransactionHistory extends React.Component {
   }
 
   renderTransaction(transaction) {
-    const enter = this.props.me._id === transaction.receiver._id ? true : false;
+    const enter = this.props.me._id === transaction.receiver ? true : false;
     const contact = enter ? transaction.sender : transaction.receiver;
-
+    moment.locale('pt-br');
     return (
-      <li key={transaction._id} className="list-group-item list-group-item-action">
-        <div className="row">
+      <li key={transaction._id} className="list-group-item d-block">
+        <div className="row no-gutters">
           <div className="col-1">
-            {enter && <i className="fas fa-arrow-down" />}
+            {enter && <i className="fas fa-arrow-down text-success" />}
+            {!enter && <i className="fas fa-arrow-up text-danger" />}
           </div>
-          <div className="col-9">
+          <div className="col-8">
             {enter && <small className="text-weight-bold">Transferência Recebida</small>}
+            {!enter && <small className="text-weight-bold">Transferência Enviada</small>}
             <span className="d-block w-100">{contact.name}</span>
-            <span className="d-block w-100">R$ {transaction.value}</span>
+            {enter && <span className="d-block w-100 text-success">R$ {formatCurrency(transaction.value)}</span>}
+            {!enter && <span className="d-block w-100 text-danger">R$ {formatCurrency(transaction.value)}</span>}
           </div>
-          <div className="col-2">
-            {transaction.timestamp}
+          <div className="col-3">
+            {moment(transaction.timestamp).format('DD/MM/YY [às] LT')}
           </div>
         </div>
       </li>

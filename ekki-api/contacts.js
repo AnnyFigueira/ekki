@@ -1,5 +1,22 @@
 module.exports = function(app) {
 
+  /* Returns the last 5 contacts */
+  app.get('/contacts/fav', async (request, response) => {
+    const me = await app.database.collection('users').findOne({_id: 1});
+    let contacts = await app.database.collection('contacts').find({ownerId: me._id}, {slice: -5}).toArray();
+    
+    /* this is done so I can get all users with only one query, as opposed to maping the contacts and making one query for each user id */
+    let userIds = contacts.map(contact => contact.userId);
+
+    let users = await app.database.collection('users').find({_id: { $in: userIds} }).toArray();
+    
+    for(let i = 0; i < contacts.length; i++) { 
+      const user = users.find(user => user._id == contacts[i].userId);
+      contacts[i].user = user;
+    }
+    response.json(contacts);
+  });
+
   app.get('/contacts', async (request, response) => {
     const me = await app.database.collection('users').findOne({_id: 1});
     let contacts = await app.database.collection('contacts').find({ownerId: me._id}).toArray();
