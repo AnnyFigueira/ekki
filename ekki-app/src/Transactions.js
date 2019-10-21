@@ -2,10 +2,11 @@ import React from 'react';
 import {
   Link
 } from "react-router-dom";
+import CurrencyInput from 'react-currency-input';
 
-import Transactions from './components/Transactions';
+import TransactionHistory from './components/TransactionHistory'
 
-export default class Home extends React.Component {
+export default class Transactions extends React.Component {
   state = {
     contacts: []
   }
@@ -25,46 +26,7 @@ export default class Home extends React.Component {
     this.setState({transactionSucceded: false});
   }
 
-  renderTransactionHistory() {
-    return (
-      <>
-        {this.state.transactions && this.state.transactions.length === 0 && 
-          <p className="font-weight-normal text-center"> 
-            <span>Nenhuma transação :(</span>
-          </p>}
-        {this.state.transactions && this.state.transactions.length > 0 && 
-          <ul className="list-group overflow-auto">
-            {this.state.transactions.map(transaction => this.renderTransaction(transaction)) }
-          </ul> 
-        }
-      </>
-    )
-  }
-
-  renderTransaction(transaction) {
-    const enter = this.props.me._id === transaction.receiver._id ? true : false;
-    const contact = enter ? transaction.sender : transaction.receiver;
-
-    return (
-      <li key={transaction._id} className="list-group-item list-group-item-action">
-        <div className="row">
-          <div className="col-1">
-            {enter && <i className="fas fa-arrow-down" />}
-          </div>
-          <div className="col-9">
-            {enter && <small className="text-weight-bold">Transferência Recebida</small>}
-            <span className="d-block w-100">{contact.name}</span>
-            <span className="d-block w-100">R$ {transaction.value}</span>
-          </div>
-          <div className="col-2">
-            {transaction.timestamp}
-          </div>
-        </div>
-      </li>
-    )
-  }
-
-  //to-do: transformar em um componente que possa receber um usuário opcionalmente
+  
   renderNewTransaction() {
     return(
       <form onSubmit={(e) => this.handleSubmit(e)}>
@@ -79,8 +41,8 @@ export default class Home extends React.Component {
         <div className="form-group">
           <div className="input-group">
             <label htmlFor="value" className="my-auto mb-0 mr-1">Valor: </label>
-            <input type="number" min="1" step="any" />
-            <small className="form-text text-muted">Insira apenas números</small>
+            <CurrencyInput decimalSeparator="," thousandSeparator="." className="form-control" />
+            <small className="form-text text-muted d-block w-100">Insira apenas números</small>
           </div>
         </div>
         <div className="form-group">
@@ -160,10 +122,10 @@ export default class Home extends React.Component {
               <div className="card-body position-relative">
                 <h3 className="card-title d-block mb-1 text-primary">
                   Histórico
-                  <i className="fas fa-star ml-2 text-secondary" />
+                  <i className="fas fa-history ml-2 text-secondary" />
                 </h3>
                 <div className="card-text py-2">
-                  {this.renderTransactionHistory()}
+                  <TransactionHistory transactions={this.state.transactions} me={this.props.me} all/>
                 </div>
                 <button type="button" className="bottom-button btn btn-primary position-absolute" title="Nova Transferência"><i className="fas fa-hand-holding-usd"/></button>
               </div>
@@ -173,7 +135,7 @@ export default class Home extends React.Component {
             <div className="card w-100">
               <div className="card-body">
                 <h3 className="card-title d-block mb-1 text-primary">
-                  Transferências
+                  Transferir
                   <i className="fas fa-exchange-alt text-secondary ml-2" />
                 </h3>
                 <div className="card-text py-2">

@@ -3,7 +3,7 @@ import {
   Link
 } from "react-router-dom";
 
-import Transactions from './components/Transactions';
+import TransactionHistory from './components/TransactionHistory';
 
 export default class Home extends React.Component {
   state = {}
@@ -94,9 +94,9 @@ export default class Home extends React.Component {
               </p>
             </div>
             <div className="pt-md-5">
-              <Link to="/history" className="btn btn-outline-primary mr-3">Extrato</Link>
+              <Link to="/transactions" className="btn btn-outline-primary mr-3">Extrato</Link>
               <Link to="/contacts" className="btn btn-outline-primary mr-3">Contatos</Link>
-              <Link to="/transfer" className="btn btn-outline-primary">Transferir</Link>
+              <Link to="/transactions?new=true" className="btn btn-outline-primary">Transferir</Link>
             </div>
           </div>
         </div>
@@ -120,14 +120,14 @@ export default class Home extends React.Component {
             <div className="card w-100">
               <div className="card-body">
                 <h3 className="card-title d-block mb-1 text-primary">
-                  Transferências
-                  <i className="fas fa-exchange-alt text-secondary ml-2" />
+                  Recente
+                  <i className="fas fa-history text-secondary ml-2" />
                 </h3>
                 <div className="card-text py-2">
-                  <Transactions />
+                  <TransactionHistory transactions={this.state.transactions} me={this.props.me}/>
                 </div>
-                <button type="button" className="bottom-button btn btn-primary position-absolute" title="Nova Transferência"><i className="fas fa-hand-holding-usd"/></button>
-                <Link to="/history" className="bottom-link text-right position-absolute">Ver histórico completo</Link>
+                <Link to="/transactions?new=true" className="bottom-button btn btn-primary position-absolute" title="Nova Transferência"><i className="fas fa-hand-holding-usd"/></Link>
+                <Link to="/transactions" className="bottom-link text-right position-absolute">Ver histórico completo</Link>
               </div>
             </div>
           </div>
