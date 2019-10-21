@@ -6,6 +6,7 @@ import {
 import ContactList from './components/ContactList';
 import TransactionHistory from './components/TransactionHistory';
 import formatCurrency from './formatCurrency';
+import savings from'./images/savings.svg';
 
 export default class Home extends React.Component {
   
@@ -38,8 +39,7 @@ export default class Home extends React.Component {
       <div>
         <div className="row align-items-center p-5 no-gutters">
           <div className="mx-auto col-md-6 order-md-2 text-md-right">
-            {/* <img src="https://image.flaticon.com/icons/svg/1392/1392078.svg" className="img-fluid mb-3 mb-md-0"/> */}
-            <img src={require('./savings.svg')} alt="Suas economias conosco" className="img-fluid mb-3 mb-md-0"/>
+            <img src={savings} alt="Suas economias conosco" className="img-fluid mb-3 mb-md-0"/>
           </div>
           <div className="col-md-6 order-md-1 text-center text-md-left">
             <h2 className="mb-md-3 mb-0 text-primary">

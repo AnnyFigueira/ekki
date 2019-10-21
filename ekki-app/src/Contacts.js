@@ -4,6 +4,7 @@ import {
 } from "react-router-dom";
 
 import ContactList from './components/ContactList';
+import onlineFriends from'./images/online-friends.svg';
 
 export default class Contacts extends React.Component {
   constructor(props) {
@@ -111,7 +112,7 @@ export default class Contacts extends React.Component {
       <div>
         <div className="row align-items-center p-5 no-gutters">
           <div className="mx-auto col-md-6 order-md-2 text-md-right">
-            <img src={require('./online-friends.svg')} alt="Tenha seus contatos acessíveis de forma rápida e fácil!" className="img-fluid mb-3 mb-md-0"/>
+            <img src={onlineFriends} alt="Tenha seus contatos acessíveis de forma rápida e fácil!" className="img-fluid mb-3 mb-md-0"/>
           </div>
           <div className="col-md-6 order-md-1 text-center text-md-left">
             <h2 className="mb-0 text-primary">

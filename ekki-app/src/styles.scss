@@ -54,7 +54,7 @@ h4, .h4 {
 }
 
 .money-icon {
-  background-image: url('./money-icon.svg');
+  background-image: url('./images/money-icon.svg');
   background-repeat: no-repeat;
   display: inline-block;
   width: 80px;
@@ -62,17 +62,8 @@ h4, .h4 {
   background-size: 80px 70px;
 }
 
-.star {
-  background-image: url('./star.svg');
-  background-repeat: no-repeat;
-  display: inline-block;
-  width: 30px;
-  height: 30px;
-  background-size: 30px 30px;
-}
-
 .favorites-icon {
-  background-image: url('./favourite.svg');
+  background-image: url('./images/favourite.svg');
   background-repeat: no-repeat;
   display: inline-block;
   width: 80px;
@@ -81,7 +72,7 @@ h4, .h4 {
 }
 
 .transfer-icon {
-  background-image: url('./transfer.svg');
+  background-image: url('./images/transfer.svg');
   background-repeat: no-repeat;
   display: inline-block;
   width: 80px;

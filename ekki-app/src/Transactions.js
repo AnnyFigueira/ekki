@@ -4,7 +4,7 @@ import {
 } from "react-router-dom";
 import CurrencyInput from 'react-currency-input';
 import TransactionHistory from './components/TransactionHistory';
-import transferMoney from'./transfer-money.svg';
+import transferMoney from'./images/transfer-money.svg';
 import formatCurrency from './formatCurrency';
 
 export default class Transactions extends React.Component {
