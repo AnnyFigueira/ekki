@@ -7,6 +7,19 @@ module.exports = function(app) {
       $or: [{senderId: myAccount._id}, {receiverId: myAccount._id}]
     }).sort({timestamp: -1}).toArray();
 
+    let senderIds = transactions.map(transaction => transaction.sender);
+    let receiverIds = transactions.map(transaction => transaction.receiver);
+
+    let senders = await app.database.collection('users').find({_id: { $in: senderIds} }).toArray();
+    let receivers = await app.database.collection('users').find({_id: { $in: receiverIds} }).toArray();
+    
+    for(let i = 0; i < transactions.length; i++) { 
+      const sender = senders.find(user => user._id == transactions[i].sender);
+      const receiver = receivers.find(user => user._id == transactions[i].receiver);
+      transactions[i].sender = sender;
+      transactions[i].receiver = receiver
+    }
+    
     response.json(transactions);
   });
 

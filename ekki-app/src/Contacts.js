@@ -90,7 +90,6 @@ export default class Contacts extends React.Component {
         window.scrollTo(0, this.contacts.current.offsetTop); } 
       else { this.setState({anErrorOcurred: true}); }
     }
-    
   }
 
   async removeContact(id) {
@@ -148,7 +147,7 @@ export default class Contacts extends React.Component {
           </div>
           <div className="col-md-6 order-md-1 text-center text-md-left">
             <h2 className="mb-0 text-primary">
-              Seus Contatos
+              Contatos
               <i className="favorites-icon" />
             </h2>
             <div className="py-4">

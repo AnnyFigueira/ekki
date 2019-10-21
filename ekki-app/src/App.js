@@ -7,6 +7,7 @@ import {
 
 import Home from './Home';
 import Contacts from './Contacts';
+import Transactions from './Transactions';
 
 // import './App.css';
 
@@ -34,8 +35,8 @@ export default class App extends React.Component {
             path="/contacts"
             render={(props) => <Contacts {...props} me={this.state.me}/>}
           />
-          <Route path="/transfer">
-            {this.state.me && <Home me={this.state.me}/>}
+          <Route path="/transactions">
+            {this.state.me && <Transactions me={this.state.me}/>}
           </Route>
           <Route path="/">
             {this.state.me && <Home me={this.state.me}/>}
