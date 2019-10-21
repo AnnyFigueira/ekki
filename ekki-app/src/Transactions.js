@@ -45,6 +45,7 @@ export default class Transactions extends React.Component {
     this.setState({usingLimit: false});
     this.setState({transactionSuccesfull: false});
     this.setState({youDontHaveBalance: false});
+    this.setState({similarTransaction: false});
   }
 
   handleChange(e) {
@@ -100,12 +101,13 @@ export default class Transactions extends React.Component {
         <div className="form-group row no-gutters">
           <label htmlFor="cpf" className="my-auto mb-0 col-3">CPF: </label>
           <div className="col-9">
-            <input type="text" className="form-control col-8" ref={this.cpfInput} id="cpf" value={this.state.cpf} disabled/>
+            <input type="text" className="form-control" ref={this.cpfInput} id="cpf" value={this.state.cpf} disabled/>
           </div>
         </div>
         <input type="submit" className="btn btn-primary" value="Enviar" />
         {this.state.transactionError && <div className="alert alert-danger text-danger mt-2"><i className="fas fa-exclamation-circle mr-2" />Ocorreu um erro, tente novamente mais tarde</div>}
         {this.state.youDontHaveBalance && <div className="alert alert-danger text-danger mt-2"><i className="fas fa-exclamation-circle mr-2" />Você não tem saldo suficiente</div>}
+        {this.state.similarTransaction && <div className="alert alert-warning text-warning mt-2"><i className="fas fa-exclamation-circle mr-2" />Transação semelhante recente</div>}
         {this.state.transactionSuccesfull && <div className="alert alert-success text-success mt-2"><i className="fas fa-check-circle mr-2" />Transferência realizada!</div>}
       </form>
     )
@@ -130,15 +132,17 @@ export default class Transactions extends React.Component {
     }
     else { 
       if(response.ok) {
-        let transactions = this.state.transactions;
-        transactions.push(transaction);
-        this.setState({transactionSuccesfull: true, transactions});
-        this.props.changeBalance(value);
-        // reset form
-        
+        if (transaction.value) {
+          let transactions = this.state.transactions;
+          transactions.unshift(transaction);
+          this.setState({transactionSuccesfull: true, transactions});
+          this.props.changeBalance(value);
+        }
+        else { this.setState({similarTransaction: true}) }
       } 
       else { this.setState({anErrorOcurred: true}); }
     }
+    this.resetForm();
   }
 
 

@@ -58,7 +58,7 @@ module.exports = function(app) {
       if(receiver) {
         const receiverAccount = await app.database.collection('accounts').findOne({userId: receiver._id});
         if ((myAccount.balance + myAccount.limit) >= value) {
-          const sameTransaction = await app.database.collection('transactions').findOne({senderId: me._id, receiverId: receiver._id, value: value, timestamp: {$gte: timeLimit}});
+          const sameTransaction = await app.database.collection('transactions').findOne({sender: me._id, receiver: receiver._id, value: value, timestamp: {$gte: timeLimit}});
           if (sameTransaction) {
             await app.database.collection('transactions').deleteOne({_id: sameTransaction._id});
           }
@@ -80,7 +80,10 @@ module.exports = function(app) {
             const transaction = await app.database.collection('transactions').findOne({_id: ops[0]._id});
             transaction.sender = me;
             transaction.receiver = receiver;
-            response.json(transaction);
+            if (sameTransaction) {
+              response.status(200).json({});
+            }
+            else { response.json(transaction); }
           }
           else response.status(500).json({});
         }
